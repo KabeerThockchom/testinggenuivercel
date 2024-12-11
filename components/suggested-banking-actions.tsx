@@ -21,7 +21,7 @@ const bankingActions = [
   }
 ];
 
-export function SuggestedBankingActions({ chatId, append }) {
+export function SuggestedBankingActions({ append }: { append: (message: { role: string; content: string }) => void }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
       {bankingActions.map((action, index) => (

@@ -135,6 +135,36 @@ export async function POST(request: Request) {
             formData
           };
         }
+      },
+      transferMoney: {
+        description: 'Transfer money between accounts',
+        parameters: z.object({
+          fromAccount: z.string(),
+          toAccount: z.string(),
+          amount: z.number()
+        }),
+        execute: async ({ fromAccount, toAccount, amount }) => {
+          return {
+            transferId: generateUUID(),
+            status: 'success',
+            amount,
+            timestamp: new Date().toISOString()
+          };
+        }
+      },
+      loanCalculator: {
+        description: 'Calculate loan payments and interest',
+        parameters: z.object({
+          principal: z.number(),
+          rate: z.number(),
+          term: z.number()
+        }),
+        execute: async ({ principal, rate, term }) => {
+          return {
+            monthlyPayment: (principal * (rate/12)) / (1 - Math.pow(1 + rate/12, -term)),
+            totalInterest: (principal * (rate/12)) / (1 - Math.pow(1 + rate/12, -term)) * term - principal
+          };
+        }
       }
     },
     onFinish: async ({ response }) => {
